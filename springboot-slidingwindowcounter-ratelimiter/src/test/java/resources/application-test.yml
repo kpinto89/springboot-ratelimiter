@@ -1,0 +1,7 @@
+rate-limiter:
+  sliding-window-counter:
+    enabled: true
+    limit: 5
+    window-ms: 60000
+    include-headers: true
+  ``
