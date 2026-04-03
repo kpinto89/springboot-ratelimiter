@@ -27,6 +27,7 @@
         <module>springboot-fixedwindow-ratelimiter</module>
         <module>springboot-slidingwindowlog-ratelimiter</module>
         <module>springboot-slidingwindowcounter-ratelimiter</module>
+        <module>springboot-leakybucket-ratelimiter</module>
         <module>springboot-tokenbucket-ratelimiter</module>
     </modules>
 </project>

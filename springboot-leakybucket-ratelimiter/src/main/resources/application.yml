@@ -1,12 +1,15 @@
 server:
-  port: 8082
+  port: 8081
+
+spring:
+  application:
+    name: springboot-leakybucket-ratelimiter
 
 rate-limiter:
-  sliding-window-counter:
+  leaky-bucket:
     enabled: true
-    limit: 100                 # max requests
-    window-ms: 60000           # window size
+    capacity: 10
+    leak-rate-per-second: 2.0
     key-type: IP               # IP | HEADER
     header-name: X-Api-Key     # used if key-type=HEADER
     include-headers: true      # add X-RateLimit-* headers
-

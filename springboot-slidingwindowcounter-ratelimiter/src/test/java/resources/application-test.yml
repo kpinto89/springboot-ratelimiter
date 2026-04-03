@@ -4,4 +4,3 @@ rate-limiter:
     limit: 5
     window-ms: 60000
     include-headers: true
-  ``
