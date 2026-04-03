@@ -1,0 +1,13 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: springboot-tokenbucket-ratelimiter
+
+ratelimiter:
+  token-bucket:
+    capacity: 100
+    refill-tokens: 100
+    refill-interval-millis: 60000
+

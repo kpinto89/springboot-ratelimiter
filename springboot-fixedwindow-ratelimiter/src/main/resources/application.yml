@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: springboot-fixedwindow-ratelimiter
+
+ratelimiter:
+  fixed-window:
+    max-requests: 100
+    window-size-millis: 60000
+
