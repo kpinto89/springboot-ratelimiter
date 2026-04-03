@@ -1,4 +1,4 @@
-package com.demo.ratelimter.limiter;
+package com.demo.ratelimiter.limiter;
 
 import com.demo.ratelimiter.limter.TokenBucketRateLimiter;
 import org.junit.jupiter.api.Test;
@@ -53,3 +53,4 @@ class TokenBucketRateLimiterTest {
                 "Bucket should never exceed capacity");
     }
 }
+
