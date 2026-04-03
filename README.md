@@ -1,9 +1,10 @@
 # springboot-ratelimiter
 
-This workspace contains three Spring Boot examples that expose the same API with different rate-limiting strategies:
+This workspace contains four Spring Boot examples that expose the same API with different rate-limiting strategies:
 
 - `springboot-fixedwindow-ratelimiter`
 - `springboot-slidingwindowlog-ratelimiter`
+- `springboot-slidingwindowcounter-ratelimiter`
 - `springboot-tokenbucket-ratelimiter`
 
 All apps provide `GET /api/hello` and return HTTP `429 Too Many Requests` with body `Rate limit exceeded` when a limit is hit.
@@ -14,6 +15,7 @@ All apps provide `GET /api/hello` and return HTTP `429 Too Many Requests` with b
 | --- | --- | --- | --- |
 | `springboot-fixedwindow-ratelimiter` | Fixed Window | Up to 100 requests per client IP in a 60-second window | `8080` |
 | `springboot-slidingwindowlog-ratelimiter` | Sliding Window Log | Up to 100 requests per client key during the last rolling 60 seconds | `8081` |
+| `springboot-slidingwindowcounter-ratelimiter` | Sliding Window Counter | Up to 100 requests per client key using a weighted two-window approximation | `8083` |
 | `springboot-tokenbucket-ratelimiter` | Token Bucket | Bucket capacity 100, refills 100 tokens every 60 seconds per client IP | `8082` |
 
 ## springboot-fixedwindow-ratelimiter
@@ -48,6 +50,25 @@ All apps provide `GET /api/hello` and return HTTP `429 Too Many Requests` with b
 - `rate-limiter.sliding-window-log.header-name: X-Api-Key`
 - `rate-limiter.sliding-window-log.include-headers: true`
 
+## springboot-slidingwindowcounter-ratelimiter
+
+### What it does
+
+- Uses `SlidingWindowCounterRateLimiter` to approximate a rolling window by weighting the previous fixed window's count against elapsed time.
+- More memory-efficient than the log variant: stores only two integer counters per key instead of all timestamps.
+- Supports rate-limit keys by client IP or request header via `rate-limiter.sliding-window-counter.key-type`.
+- Adds `X-RateLimit-*` headers when enabled and rejects over-limit requests with HTTP `429`.
+
+### Config (`application.yml`)
+
+- `server.port: 8083`
+- `rate-limiter.sliding-window-counter.enabled: true`
+- `rate-limiter.sliding-window-counter.limit: 100`
+- `rate-limiter.sliding-window-counter.window-ms: 60000`
+- `rate-limiter.sliding-window-counter.key-type: IP`
+- `rate-limiter.sliding-window-counter.header-name: X-Api-Key`
+- `rate-limiter.sliding-window-counter.include-headers: true`
+
 ## springboot-tokenbucket-ratelimiter
 
 ### What it does
@@ -81,6 +102,13 @@ Set-Location "C:\Users\t_kevinpin\IdeaProjects\springboot-ratelimiter\springboot
 mvn spring-boot:run
 ```
 
+Run sliding-window-counter module:
+
+```powershell
+Set-Location "C:\Users\t_kevinpin\IdeaProjects\springboot-ratelimiter\springboot-slidingwindowcounter-ratelimiter"
+mvn spring-boot:run
+```
+
 Run token-bucket module:
 
 ```powershell
@@ -94,6 +122,7 @@ Call endpoints:
 Invoke-WebRequest -Uri "http://localhost:8080/api/hello" -UseBasicParsing
 Invoke-WebRequest -Uri "http://localhost:8081/api/hello" -UseBasicParsing
 Invoke-WebRequest -Uri "http://localhost:8082/api/hello" -UseBasicParsing
+Invoke-WebRequest -Uri "http://localhost:8083/api/hello" -UseBasicParsing
 ```
 
 ## Tests
@@ -110,6 +139,13 @@ Run sliding-window-log tests:
 ```powershell
 Set-Location "C:\Users\t_kevinpin\IdeaProjects\springboot-ratelimiter"
 mvn -pl springboot-slidingwindowlog-ratelimiter test
+```
+
+Run sliding-window-counter tests:
+
+```powershell
+Set-Location "C:\Users\t_kevinpin\IdeaProjects\springboot-ratelimiter"
+mvn -pl springboot-slidingwindowcounter-ratelimiter test
 ```
 
 Run token-bucket tests:

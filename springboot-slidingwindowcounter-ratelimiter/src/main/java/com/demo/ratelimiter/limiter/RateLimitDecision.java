@@ -1,4 +1,4 @@
-package com.example.ratelimiter.limiter;
+package com.demo.ratelimiter.limiter;
 
 public record RateLimitDecision(
         boolean allowed,

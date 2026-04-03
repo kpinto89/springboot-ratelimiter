@@ -1,4 +1,4 @@
-package com.example.ratelimiter.limiter;
+package com.demo.ratelimiter.limiter;
 
 import org.junit.jupiter.api.Test;
 
@@ -45,11 +45,13 @@ class SlidingWindowCounterRateLimiterTest {
         assertTrue(rl.tryAcquire("k").allowed());
         assertTrue(rl.tryAcquire("k").allowed());
 
-        // Enter next window at t=1000ms, but only 10ms in -> prev weight ~ 0.99
-        clock.setMs(1010);
+        // Move to the exact start of the next window (t=1000ms) → weight = 1.0
+        // effective = currCount + prevCount * weight = 0 + 3 * 1.0 = 3.0 → 1 slot left
+        clock.setMs(1000);
 
-        // With 3 prev requests weighted ~2.97, only about 1 more should be allowed for limit=4
+        // 1st request: effective = 3.0 < 4 → allowed; after: effective = 1 + 3.0 = 4.0 → 0 remaining
         assertTrue(rl.tryAcquire("k").allowed());
+        // 2nd request: effective = 1 + 3.0 = 4.0 >= 4 → blocked
         assertFalse(rl.tryAcquire("k").allowed());
     }
 }

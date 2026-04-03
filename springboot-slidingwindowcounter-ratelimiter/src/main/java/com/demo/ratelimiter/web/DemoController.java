@@ -1,4 +1,4 @@
-package com.example.ratelimiter.web;
+package com.demo.ratelimiter.web;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

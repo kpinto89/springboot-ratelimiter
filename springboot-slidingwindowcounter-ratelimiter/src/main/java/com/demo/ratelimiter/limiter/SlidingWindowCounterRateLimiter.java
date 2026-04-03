@@ -1,4 +1,4 @@
-package com.example.ratelimiter.limiter;
+package com.demo.ratelimiter.limiter;
 
 import java.time.Clock;
 import java.util.Map;

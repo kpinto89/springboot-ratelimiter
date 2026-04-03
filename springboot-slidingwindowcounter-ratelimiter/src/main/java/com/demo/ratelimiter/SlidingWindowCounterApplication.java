@@ -1,4 +1,4 @@
-package com.example.ratelimiter;
+package com.demo.ratelimiter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

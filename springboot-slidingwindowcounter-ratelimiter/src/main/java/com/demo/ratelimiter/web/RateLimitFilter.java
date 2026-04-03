@@ -1,8 +1,8 @@
-package com.example.ratelimiter.web;
+package com.demo.ratelimiter.web;
 
-import com.example.ratelimiter.config.SlidingWindowCounterProperties;
-import com.example.ratelimiter.limiter.RateLimitDecision;
-import com.example.ratelimiter.limiter.SlidingWindowCounterRateLimiter;
+import com.demo.ratelimiter.config.SlidingWindowCounterProperties;
+import com.demo.ratelimiter.limiter.RateLimitDecision;
+import com.demo.ratelimiter.limiter.SlidingWindowCounterRateLimiter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

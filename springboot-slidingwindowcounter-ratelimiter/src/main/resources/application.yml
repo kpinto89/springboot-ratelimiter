@@ -1,11 +1,11 @@
 server:
-  port: 8081
+  port: 8083
 
 rate-limiter:
-  sliding-window-log:
+  sliding-window-counter:
     enabled: true
     limit: 100                 # max requests
-    window-ms: 60000           # rolling window size
+    window-ms: 60000           # window size
     key-type: IP               # IP | HEADER
     header-name: X-Api-Key     # used if key-type=HEADER
     include-headers: true      # add X-RateLimit-* headers
